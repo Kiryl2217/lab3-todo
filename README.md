@@ -15,33 +15,24 @@
 
 *   **Git:** Для клонирования репозитория.
 *   **Java Development Kit (JDK):** Версия 17.
-    *   Проект использует для компиляции возможности Java 17. Если у вас установлена другая версия JDK (например, 11 или 21), потребуется внести изменение в конфигурацию сборки (см. ниже) или полагаться на Gradle Toolchain.
+    *   Если Java не установлена, скачайте и установите её с сайта https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+    *   Проект использует для компиляции возможности Java 17. Если у вас установлена другая версия JDK (например, 11 или 21), потребуется внести изменение в конфигурацию сборки (см. ниже).
     *   Минимально возможная версия для запуска — JDK 11.
 
 ## Установка и настройка
 
-Клонируйте репозиторий:
+### 1. Клонирование репозитория
+
+Откройте терминал (Git Bash, командную строку cmd.exe или PowerShell) в папке, куда хотите сохранить проект, и выполните команду:
 
 ```bash
-git clone <URL-вашего-репозитория>
+git clone https://github.com/Kiryl2217/lab3-todo.git
 cd lab3-todo
 ```
 
-**(Опционально) Настройка версии Java, если у вас не JDK 17:**
+**2. Настройка версии Java, если у вас не JDK 17:**
 
-Если у вас установлена другая версия JDK (например, 21), вы можете открыть файл `build.gradle` и изменить (или добавить) версию в блоке toolchain.
-
-Найдите этот блок в `build.gradle` (или добавьте, если его нет):
-
-```groovy
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-```
-
-Замените `17` на номер вашей версии. Например, для JDK 21:
+Если у вас установлена другая версия JDK (например, 21), вы можете открыть файл `build.gradle` (в папке проекта) и добавить следующий блок кода:
 
 ```groovy
 java {
@@ -51,18 +42,25 @@ java {
 }
 ```
 
-**Создайте файлы конфигурации:**
+`21` можно заменить на номер вашей версии.
 
-Важно! Файл `app.properties` не отслеживается системой контроля версий (добавлен в `.gitignore`) и должен быть создан вручную.
+**3. Создайте файлы конфигурации:**
 
-Создайте файл `app.properties` в **корне проекта** (рядом с `build.gradle`) со следующим содержимым:
+**Важно!** Файл `app.properties` не отслеживается системой контроля версий (добавлен в `.gitignore`) и должен быть создан вручную.
+
+**Инструкция по созданию:**
+1.  Зайдите в папку с проектом (туда, где лежит `build.gradle`).
+2.  Создайте новый текстовый файл.
+3.  Переименуйте его в `app.properties`.
+    *   *Внимание:* Убедитесь, что вы удалили расширение `.txt` (файл не должен называться `app.properties.txt`).
+4.  Откройте его любым текстовым редактором (Блокнот, Notepad++) и вставьте следующее содержимое:
 
 ```properties
 # Директория для сканирования (точка означает текущую папку)
 scan.source.directory=./src
 
 # Расширения файлов для сканирования (через запятую)
-scan.file.extensions=.java,.kt,.xml,.md,.txt
+scan.file.extensions=.txt
 
 # Ключевые слова для поиска (через запятую, регистронезависимо)
 scan.keywords=TODO,FIXME
@@ -72,44 +70,51 @@ scan.keywords=TODO,FIXME
 
 Проект использует плагин `application` и Gradle Wrapper, что делает его запуск очень простым. Вам не нужно устанавливать Gradle глобально.
 
-**Сборка и тестирование (рекомендуется):**
+**Сборка и тестирование**
 
 Эта команда скомпилирует исходный код и запустит все тесты.
 
-Для Linux / macOS:
-```bash
-./gradlew build
-```
-Для Windows:
-```powershell
-.\gradlew build
-```
+*   **Для Linux / macOS / Git Bash:**
+    ```bash
+    ./gradlew build
+    ```
+*   **Для Windows PowerShell:**
+    ```powershell
+    .\gradlew build
+    ```
+*   **Для Windows CMD (Командная строка):**
+    ```cmd
+    gradlew build
+    ```
 
 **Запуск приложения:**
 
 Эта команда запустит приложение напрямую, без необходимости вручную собирать JAR-файл.
 
-Для Linux / macOS:
-```bash
-./gradlew run
-```
-Для Windows:
-```powershell
-.\gradlew run
-```
+*   **Для Linux / macOS / Git Bash:**
+    ```bash
+    ./gradlew run
+    ```
+*   **Для Windows PowerShell:**
+    ```powershell
+    .\gradlew run
+    ```
+*   **Для Windows CMD (Командная строка):**
+    ```cmd
+    gradlew run
+    ```
 
 ## Пример вывода в консоль
 
 ```text
-Task :run
-Found 3 issues:
+> Task :run
+Found 4 issues:
 
-[src/main/java/com/example/todo/TodoScanner.java]
-  L15: // TODO: Add multithreading support
-  L42: // FIXME: Potential NullPointerException here
-
-[README.md]
-  L10: TODO: Update documentation with screenshots
+[.\src\text.txt]
+  L1: TODO
+  L2: TODO
+  L3: TODO
+  L5: FIXME
 
 BUILD SUCCESSFUL in 1s
 ```
